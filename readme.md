@@ -15,19 +15,19 @@ Uses [vite](https://vitejs.dev/) to run dev server and to minify output.
 
 ### Run locally
 
-`pnpm run dev`: http://localhost:5173`
+`pnpm run dev`: http://localhost:5555`
 
 Local dev script can be added in Weblfow:
 
 ```
-<script src="http://localhost:5173/script.js"></script>
+<script src="http://localhost:5555/main.js"></script>
 ```
 
 Or in Chrome browser console:
 
 ```
 var ele = document.createElement("script");
-var scriptPath = "http://localhost:5173/script.js" //verify the script path
+var scriptPath = "http://localhost:5555/main.js" //verify the script path
 ele.setAttribute("src",scriptPath);
 document.head.appendChild(ele)
 
