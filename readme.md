@@ -1,4 +1,4 @@
-# Minimal Webflow Developement Starter
+# ITA Toolkit Custom code
 
 Uses [vite](https://vitejs.dev/) to run dev server and to minify output.
 
