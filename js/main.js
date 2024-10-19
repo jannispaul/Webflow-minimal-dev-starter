@@ -1,8 +1,15 @@
 import { initFAQ } from "./initFaq.js";
 import { initSorting } from "./initSorting.js";
+import { loadMechanisms } from "./loadMechanisms.js";
+import { initDialogs } from "./initDialogs.js";
+import { initViews } from "./initViews.js";
+import { initFilter } from "./initFilter.js";
 
-document.addEventListener("DOMContentLoaded", (event) => {
-  // Function to organize data based on the provided pseudo-code
+document.addEventListener("DOMContentLoaded", async (event) => {
+  // Remove all hidden webflow artifacts
+  Array.from(document.querySelectorAll(".w-condition-invisible")).forEach((node) => node.remove());
+
+  // Setup tables
   function organizeChallengeMechanismTable() {
     // Get the order of mechanisms
     const mechanisms = Array.from(document.querySelectorAll('[data-list="mechanisms"] [data-mechanism]')).map((el) => el.getAttribute("data-mechanism"));
@@ -85,5 +92,9 @@ document.addEventListener("DOMContentLoaded", (event) => {
   }
 
   initFAQ();
+  initViews();
+  initFilter();
   initSorting();
+  await loadMechanisms();
+  initDialogs();
 });
