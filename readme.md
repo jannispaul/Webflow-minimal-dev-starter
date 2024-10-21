@@ -1,6 +1,7 @@
 # ITA Toolkit Custom code
 
 Uses [vite](https://vitejs.dev/) to run dev server and to minify output.
+vite.config.js needs to be modified to build code for 2 files: home.js and main.js
 
 ## Setup
 
