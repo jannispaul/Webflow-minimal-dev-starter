@@ -1,4 +1,8 @@
 import { initDialogs } from "./initDialogs";
+import { initVideo } from "./video";
 
-initDialogs();
-console.log("init dialogs");
+document.addEventListener("DOMContentLoaded", async (event) => {
+  initDialogs();
+  initVideo();
+  console.log("init dialogs");
+});

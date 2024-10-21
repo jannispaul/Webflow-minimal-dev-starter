@@ -3,7 +3,9 @@ export function initSorting() {
   // Get form elements
   const form = document.querySelector('form[data-name="sorting"]');
   const sortingInputs = form.querySelectorAll('input[type="checkbox"]');
-  const originalSorting = document.querySelector('[data-list="mechanism-slides"]').innerHTML;
+  const bottomBarGuide = document.querySelector('[data-view="guide"]');
+  const bottomBarLegend = document.querySelector('[data-view="legend"]');
+  //   const originalSorting = document.querySelector('[data-list="mechanism-slides"]').innerHTML;
   //   const originalHTML = fragmentFromString(originalSorting);
 
   // Listen for changes on form
@@ -30,29 +32,13 @@ export function initSorting() {
       mechanismSlideList.appendChild(slide);
     });
 
-    // let originalHTML = stringToHTML(originalSorting);
-    // const mechanismSlideList = document.querySelector('[data-list="mechanism-slides"]');
-
-    // // Create a DocumentFragment to minimize reflows
-    // const fragment = document.createDocumentFragment();
-    // originalHTML.forEach((slide) => {
-    //   fragment.appendChild(slide);
-    // });
-    // console.log(performance.now());
-
-    // // Clear the list and append the fragment in one operation
-    // mechanismSlideList.innerHTML = "";
-    // mechanismSlideList.appendChild(fragment);
-    // console.log(performance.now());
+    mechanismSlideList.classList.remove("sorted");
+    bottomBarGuide.style.display = "flex";
+    bottomBarLegend.style.display = "none";
   }
 
   function handleSorting(event) {
     const target = event.target;
-
-    // TODO
-    // Handle uncheck
-    // Update bottom Bar
-    // Make sure only one checkbox is checked
 
     if (!form.querySelector("input:checked")) {
       resetSorting();
@@ -94,10 +80,12 @@ export function initSorting() {
 
     // Update slides
     mechanismSlides.forEach((slide) => {
-      slide.classList.add("open");
       slide.querySelectorAll("[data-challenge]").forEach((impact) => (impact.style.display = "none"));
       slide.querySelector(`[data-challenge="${challengeSlug}"]`).style.display = "flex";
       mechanismSlideList.appendChild(slide);
     });
+    mechanismSlideList.classList.add("sorted");
+    bottomBarGuide.style.display = "none";
+    bottomBarLegend.style.display = "flex";
   }
 }

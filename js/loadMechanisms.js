@@ -53,16 +53,17 @@ export async function loadMechanisms() {
   // Function to create modal content with content
   function createModalWithContent(content, slug) {
     // Clone modal template
-    const modalTemplate = document.querySelector("[data-element='dialog-content']");
+    const modalTemplate = document.querySelector("[data-element='dialog-template']");
     const modal = modalTemplate.cloneNode(true);
+    const modalcontent = modal.querySelector("[data-element='dialog-content']");
     // Remove template attribute
     modal.removeAttribute("data-element");
     // Attach slug as data-dialog="slug"
     modal.setAttribute("data-dialog", slug);
     // Set modal content
-    modal.innerHTML = content;
+    modalcontent.innerHTML = content;
     // Append modal to body
     document.body.appendChild(modal);
   }
-  console.log("mechanisms loaded");
+  //   console.log("mechanisms loaded");
 }

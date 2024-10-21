@@ -6,7 +6,7 @@ export function initFAQ() {
     const sibling = faqQuestion.nextElementSibling;
 
     sibling.style.height = "0px";
-    sibling.style.overflow = "hidden"; // Ensure content doesn't overflow during animation
+    sibling.style.overflowY = "clip"; // Ensure content doesn't overflow during animation
 
     faqQuestion.addEventListener("click", handleClick);
     function handleClick(event) {
