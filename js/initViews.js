@@ -5,6 +5,7 @@ export function initViews(params) {
   const viewSwitch = document.querySelector("[data-view='switch']");
   const bottomBarLegend = document.querySelector('[data-view="legend"]');
   const bottomBarGuide = document.querySelector('[data-view="guide"]');
+  const navFilter = document.querySelector('[data-view="filter-wrap"]');
 
   // Init views
   function setView(view) {
@@ -13,11 +14,13 @@ export function initViews(params) {
       mechanismView.style.display = "none";
       bottomBarLegend.style.display = "flex";
       bottomBarGuide.style.display = "none";
+      navFilter.style.display = "flex";
     } else if (view === "mechanisms") {
       challengeView.style.display = "none";
       mechanismView.style.display = "block";
       bottomBarLegend.style.display = "none";
       bottomBarGuide.style.display = "flex";
+      navFilter.style.display = "none";
     }
   }
 

@@ -1,5 +1,6 @@
 export function initFAQ() {
   const triggers = document.querySelectorAll(".c_row-trigger");
+  let interactions = 0;
 
   triggers.forEach((faqQuestion, i) => {
     // Initially set the height of the next sibling to 0px
@@ -14,6 +15,11 @@ export function initFAQ() {
     }
   });
   function toggleFaq(faqQuestion) {
+    if (interactions === 0) {
+      showMechanismToolTip(faqQuestion);
+    } else if (interactions === 1) {
+      hideToolTips();
+    }
     const sibling = faqQuestion.nextElementSibling;
     // Close other accordions when opening a new one
     if (!faqQuestion.classList.contains("open")) {
@@ -48,5 +54,31 @@ export function initFAQ() {
         sibling.style.height = "0px";
       };
     }
+  }
+  showChallengeToolTip();
+
+  function showChallengeToolTip() {
+    const tooltip = document.querySelector("[data-tooltip='challenge']");
+    const challengeColumn = document.querySelector(".c_title-cell");
+    const fistChallenge = document.querySelector(".c_first-cell");
+    let target = window.innerWidth < 992 ? fistChallenge : challengeColumn;
+    tooltip.style.position = "absolute";
+    target.appendChild(tooltip);
+    tooltip.style.display = "flex";
+    tooltip.style.transform = "translateY(-100%)";
+  }
+  function showMechanismToolTip(faqQuestion) {
+    hideToolTips();
+    const tooltip = document.querySelector("[data-tooltip='mechanism']");
+    const target = faqQuestion.querySelector("[data-source]");
+    tooltip.style.position = "absolute";
+    target.appendChild(tooltip);
+    tooltip.style.display = "flex";
+    interactions++;
+  }
+  function hideToolTips() {
+    document.querySelectorAll("[data-tooltip]").forEach((tooltip) => {
+      tooltip.style.display = "none";
+    });
   }
 }

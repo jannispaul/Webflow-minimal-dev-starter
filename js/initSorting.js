@@ -5,15 +5,15 @@ export function initSorting() {
   const sortingInputs = form.querySelectorAll('input[type="checkbox"]');
   const bottomBarGuide = document.querySelector('[data-view="guide"]');
   const bottomBarLegend = document.querySelector('[data-view="legend"]');
-  //   const originalSorting = document.querySelector('[data-list="mechanism-slides"]').innerHTML;
-  //   const originalHTML = fragmentFromString(originalSorting);
-
+  const mechanismSlideList = document.querySelector('[data-list="mechanism-slides"]');
+  const moreSlide = document.querySelector('[data-element="more-slide"]');
   // Listen for changes on form
   form.addEventListener("change", handleSorting);
 
+  mechanismSlideList.appendChild(moreSlide);
+
   // Reset sorting by data-sort attribute
   function resetSorting() {
-    const mechanismSlideList = document.querySelector('[data-list="mechanism-slides"]');
     const mechanismSlides = Array.from(mechanismSlideList.querySelectorAll("[data-mechanism]"));
 
     // Sort mechanismSlides based on original sorting
@@ -30,7 +30,9 @@ export function initSorting() {
     // Set items in list
     mechanismSlides.forEach((slide) => {
       mechanismSlideList.appendChild(slide);
+      slide.style.opacity = 1;
     });
+    mechanismSlideList.append(moreSlide);
 
     mechanismSlideList.classList.remove("sorted");
     bottomBarGuide.style.display = "flex";
@@ -61,7 +63,7 @@ export function initSorting() {
   // Function to sort mechanisms by challenge impact
   function sortMechanismsByImpact(challengeSlug) {
     console.log(`Sorting mechanisms by ${challengeSlug}`);
-    const mechanismSlideList = document.querySelector('[data-list="mechanism-slides"]');
+
     const mechanismSlides = Array.from(mechanismSlideList.querySelectorAll('[data-list="mechanism-slides"] [data-mechanism]'));
     // Sorting order
     const sortingReference = ["High", "Medium", "Not Relevant"];
@@ -82,6 +84,10 @@ export function initSorting() {
     mechanismSlides.forEach((slide) => {
       slide.querySelectorAll("[data-challenge]").forEach((impact) => (impact.style.display = "none"));
       slide.querySelector(`[data-challenge="${challengeSlug}"]`).style.display = "flex";
+
+      // Set opactity if slide is not relevant
+      slide.querySelector(`[data-challenge="${challengeSlug}"]`).getAttribute("data-impact") === "Not Relevant" ? (slide.style.opacity = 0.3) : (slide.style.opacity = 1);
+
       mechanismSlideList.appendChild(slide);
     });
     mechanismSlideList.classList.add("sorted");
