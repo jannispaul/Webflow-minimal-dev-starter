@@ -1,4 +1,4 @@
-export function createMatrix(params) {
+export function initData(params) {
   // Remove all hidden webflow artifacts
   Array.from(document.querySelectorAll(".w-condition-invisible")).forEach((node) => node.remove());
 

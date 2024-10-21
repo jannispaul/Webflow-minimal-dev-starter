@@ -1,3 +1,4 @@
+import { getUrlParameter } from "./getURLParameter.js";
 export function initDialogs() {
   // Get all  dialog elements
   let dialogContentElements = document.querySelectorAll("[data-dialog]:not([data-dialog='close'])");
@@ -35,10 +36,6 @@ export function initDialogs() {
     document.body.style.overflow = "auto";
     modal.close();
     window.history.replaceState(null, null, "?");
-  }
-  function getUrlParameter(name) {
-    const urlParams = new URLSearchParams(window.location.search);
-    return urlParams.get(name);
   }
 
   const nameSlug = getUrlParameter("name");

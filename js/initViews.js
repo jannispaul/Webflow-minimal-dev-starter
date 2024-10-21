@@ -1,3 +1,4 @@
+import { getUrlParameter } from "./getURLParameter.js";
 export function initViews(params) {
   // Get views
   const challengeView = document.querySelector("[data-view='challenges']");
@@ -37,7 +38,9 @@ export function initViews(params) {
   // Init views
   viewSwitch.dispatchEvent(new Event("change"));
 
-  // Get switcher
-  // Init switcher
-  // Handle clicks
+  const type = getUrlParameter("type");
+  if (type == "mechanism") {
+    setView("mechanisms");
+    viewSwitch.querySelector("input").checked = false;
+  }
 }
