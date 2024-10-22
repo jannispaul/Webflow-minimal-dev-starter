@@ -7,18 +7,22 @@ export function initViews(params) {
   const bottomBarLegend = document.querySelector('[data-view="legend"]');
   const bottomBarGuide = document.querySelector('[data-view="guide"]');
   const navFilter = document.querySelector('[data-view="filter-wrap"]');
-
+  const mechanismSlideList = document.querySelector('[data-list="mechanism-slides"]');
+  // Set initial index for CSS animation
+  mechanismSlideList.childNodes.forEach((slide, index) => {
+    slide.style.setProperty("--index", `${index}`);
+  });
   // Init views
   function setView(view) {
     if (view === "challenges") {
-      challengeView.style.display = "block";
+      challengeView.style.display = "flex";
       mechanismView.style.display = "none";
       bottomBarLegend.style.display = "flex";
       bottomBarGuide.style.display = "none";
       navFilter.style.display = "flex";
     } else if (view === "mechanisms") {
       challengeView.style.display = "none";
-      mechanismView.style.display = "block";
+      mechanismView.style.display = "flex";
       bottomBarLegend.style.display = "none";
       bottomBarGuide.style.display = "flex";
       navFilter.style.display = "none";

@@ -77,6 +77,7 @@ export function initData(params) {
         if (nestTarget) {
           // Clone the item and add it to the target
           const clonedImpact = item.querySelector("[data-source='impact']").cloneNode(true);
+          clonedImpact.removeAttribute("role");
           clonedImpact.classList.remove("cell");
           clonedImpact.style.display = "none";
           nestTarget.appendChild(clonedImpact);

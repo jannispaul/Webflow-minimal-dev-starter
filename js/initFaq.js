@@ -53,6 +53,32 @@ export function initFAQ() {
         collapsable.style.height = "0px";
       };
     }
+    updateColumns(trigger);
+  }
+
+  // Function to update column text colors based on open state and impact
+  function updateColumns(trigger) {
+    // Get Items
+    const row = trigger.closest(".c_row-wrap");
+    const isOpen = trigger.closest(".open");
+    const titleCells = Array.from(document.querySelector("[data-list='mechanisms']").childNodes);
+
+    // Check if open
+    if (isOpen) {
+      // Get irrelevant items,
+      let irrelavantItems = row.querySelectorAll("[data-impact='Not Relevant']");
+      irrelavantItems.forEach((item) => {
+        // Get index of item and color title cells, shift index by 1, because of CMS list
+        let index = Array.from(item.parentNode.childNodes).indexOf(item);
+        titleCells[index - 1].style.color = "rgba(173, 173, 173, 1)";
+      });
+    } else {
+      // On close, reset all cell colors
+      titleCells.forEach((cell) => {
+        cell.style.color = "";
+      });
+    }
+    row.querySelectorAll("[data-impact='Not Relevant']");
   }
   showChallengeToolTip();
 

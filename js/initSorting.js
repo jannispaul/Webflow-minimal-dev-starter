@@ -28,8 +28,11 @@ export function initSorting() {
     // Empty List
     mechanismSlideList.innerHTML = "";
     // Set items in list
-    mechanismSlides.forEach((slide) => {
+    mechanismSlides.forEach((slide, index) => {
+      // set cusrom property --delay on slide
+      slide.style.setProperty("--index", `${index}`);
       mechanismSlideList.appendChild(slide);
+
       slide.style.opacity = 1;
     });
     mechanismSlideList.append(moreSlide);
@@ -81,12 +84,13 @@ export function initSorting() {
     });
 
     // Update slides
-    mechanismSlides.forEach((slide) => {
+    mechanismSlides.forEach((slide, index) => {
       slide.querySelectorAll("[data-challenge]").forEach((impact) => (impact.style.display = "none"));
       slide.querySelector(`[data-challenge="${challengeSlug}"]`).style.display = "flex";
 
       // Set opactity if slide is not relevant
       slide.querySelector(`[data-challenge="${challengeSlug}"]`).getAttribute("data-impact") === "Not Relevant" ? (slide.style.opacity = 0.3) : (slide.style.opacity = 1);
+      slide.style.setProperty("--index", `${index}`);
 
       mechanismSlideList.appendChild(slide);
     });
