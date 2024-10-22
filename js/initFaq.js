@@ -1,57 +1,57 @@
 export function initFAQ() {
-  const triggers = document.querySelectorAll(".c_row-trigger");
+  const triggers = document.querySelectorAll("[data-collapse='trigger']");
   let interactions = 0;
 
-  triggers.forEach((faqQuestion, i) => {
-    // Initially set the height of the next sibling to 0px
-    const sibling = faqQuestion.nextElementSibling;
+  // Initially set the height of the next sibling to 0px
+  triggers.forEach((trigger, i) => {
+    const collapsable = trigger.parentNode.nextElementSibling;
 
-    sibling.style.height = "0px";
-    sibling.style.overflowY = "clip"; // Ensure content doesn't overflow during animation
+    collapsable.style.height = "0px";
+    collapsable.style.overflowY = "clip"; // Ensure content doesn't overflow during animation
 
-    faqQuestion.addEventListener("click", handleClick);
+    trigger.addEventListener("click", handleClick);
     function handleClick(event) {
       toggleFaq(event.currentTarget);
     }
   });
-  function toggleFaq(faqQuestion) {
+  function toggleFaq(trigger) {
     if (interactions === 0) {
-      showMechanismToolTip(faqQuestion);
+      showMechanismToolTip(trigger);
     } else if (interactions === 1) {
       hideToolTips();
     }
-    const sibling = faqQuestion.nextElementSibling;
+    const collapsable = trigger.parentNode.nextElementSibling;
     // Close other accordions when opening a new one
-    if (!faqQuestion.classList.contains("open")) {
-      document.querySelectorAll(".c_row-trigger.open").forEach((openQuestion) => {
-        openQuestion.click();
+    if (!trigger.parentNode.classList.contains("open")) {
+      document.querySelectorAll(".open").forEach((trigger) => {
+        trigger.children[0].click();
       });
     }
 
     // Toggle the open class
-    faqQuestion.classList.toggle("open");
+    trigger.parentNode.classList.toggle("open");
 
-    if (faqQuestion.classList.contains("open")) {
+    if (trigger.parentNode.classList.contains("open")) {
       // Open the content div if already closed
-      sibling.style.height = "auto";
-      let autoHeight = sibling.scrollHeight;
-      sibling.style.height = "0px";
+      collapsable.style.height = "auto";
+      let autoHeight = collapsable.scrollHeight;
+      collapsable.style.height = "0px";
 
-      sibling.animate([{ height: "0px" }, { height: autoHeight + "px" }], {
+      collapsable.animate([{ height: "0px" }, { height: autoHeight + "px" }], {
         duration: 400,
         easing: "ease",
       }).onfinish = function () {
-        sibling.style.height = "auto";
+        collapsable.style.height = "auto";
       };
     } else {
       // Close the content div if already open
-      let currentHeight = sibling.scrollHeight;
+      let currentHeight = collapsable.scrollHeight;
 
-      sibling.animate([{ height: currentHeight + "px" }, { height: "0px" }], {
+      collapsable.animate([{ height: currentHeight + "px" }, { height: "0px" }], {
         duration: 400,
         easing: "ease",
       }).onfinish = function () {
-        sibling.style.height = "0px";
+        collapsable.style.height = "0px";
       };
     }
   }
@@ -63,7 +63,7 @@ export function initFAQ() {
     const fistChallenge = document.querySelector(".c_first-cell");
     let target = window.innerWidth < 992 ? fistChallenge : challengeColumn;
     tooltip.style.position = "absolute";
-    target.appendChild(tooltip);
+    // target.appendChild(tooltip);
     tooltip.style.display = "flex";
     tooltip.style.transform = "translateY(-100%)";
   }
@@ -72,7 +72,7 @@ export function initFAQ() {
     const tooltip = document.querySelector("[data-tooltip='mechanism']");
     const target = faqQuestion.querySelector("[data-source]");
     tooltip.style.position = "absolute";
-    target.appendChild(tooltip);
+    // target.appendChild(tooltip);
     tooltip.style.display = "flex";
     interactions++;
   }

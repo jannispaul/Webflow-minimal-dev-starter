@@ -6,6 +6,7 @@ import { initViews } from "./initViews.js";
 import { initFilter } from "./initFilter.js";
 import { initVideo } from "./video.js";
 import { initData } from "./initData.js";
+import { hoverTable } from "./hoverTable.js";
 
 document.addEventListener("DOMContentLoaded", async (event) => {
   initData();
@@ -17,4 +18,5 @@ document.addEventListener("DOMContentLoaded", async (event) => {
   await loadMechanisms();
   initDialogs();
   initVideo();
+  hoverTable();
 });
