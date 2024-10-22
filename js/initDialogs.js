@@ -13,6 +13,9 @@ export function initDialogs() {
     dialog.setAttribute("data-dialog", element.getAttribute("data-dialog"));
     element.removeAttribute("data-dialog");
     document.body.append(dialog);
+    dialog.addEventListener("close", (event) => {
+      window.history.replaceState(null, null, "?");
+    });
   }
 
   // Create Dialogs from dialog content elements

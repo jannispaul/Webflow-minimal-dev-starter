@@ -63,22 +63,25 @@ export function initFAQ() {
     const fistChallenge = document.querySelector(".c_first-cell");
     let target = window.innerWidth < 992 ? fistChallenge : challengeColumn;
     tooltip.style.position = "absolute";
-    // target.appendChild(tooltip);
+    target.appendChild(tooltip);
     tooltip.style.display = "flex";
     tooltip.style.transform = "translateY(-100%)";
+    document.addEventListener("click", hideToolTips, { once: true });
   }
-  function showMechanismToolTip(faqQuestion) {
-    hideToolTips();
+  function showMechanismToolTip(trigger) {
+    // hideToolTips();
     const tooltip = document.querySelector("[data-tooltip='mechanism']");
-    const target = faqQuestion.querySelector("[data-source]");
+    const target = trigger.parentNode.querySelector("[data-source]");
+    console.log(target);
     tooltip.style.position = "absolute";
-    // target.appendChild(tooltip);
+    tooltip.style.zIndex = 2;
+    target.appendChild(tooltip);
     tooltip.style.display = "flex";
     interactions++;
+    // document.addEventListener("click", hideToolTips, { once: true });
   }
   function hideToolTips() {
-    document.querySelectorAll("[data-tooltip]").forEach((tooltip) => {
-      tooltip.style.display = "none";
-    });
+    console.log("hiding");
+    document.querySelectorAll("[data-tooltip]")[interactions].style.display = "none";
   }
 }
