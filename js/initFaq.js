@@ -15,10 +15,9 @@ export function initFAQ() {
     }
   });
   function toggleFaq(trigger) {
+    // After first interaction show mechanismtooltip
     if (interactions === 0) {
       showMechanismToolTip(trigger);
-    } else if (interactions === 1) {
-      hideToolTips();
     }
     const collapsable = trigger.parentNode.nextElementSibling;
     // Close other accordions when opening a new one
@@ -63,25 +62,25 @@ export function initFAQ() {
     const fistChallenge = document.querySelector(".c_first-cell");
     let target = window.innerWidth < 992 ? fistChallenge : challengeColumn;
     tooltip.style.position = "absolute";
-    target.appendChild(tooltip);
     tooltip.style.display = "flex";
     tooltip.style.transform = "translateY(-100%)";
-    document.addEventListener("click", hideToolTips, { once: true });
+    target.appendChild(tooltip);
+    // Any click closes the tooltip
+    document.addEventListener("click", hideToolTips, { once: true, capture: true });
   }
   function showMechanismToolTip(trigger) {
-    // hideToolTips();
     const tooltip = document.querySelector("[data-tooltip='mechanism']");
     const target = trigger.parentNode.querySelector("[data-source]");
-    console.log(target);
     tooltip.style.position = "absolute";
     tooltip.style.zIndex = 2;
-    target.appendChild(tooltip);
     tooltip.style.display = "flex";
+    tooltip.style.transform = "translateY(-100%)";
+    target.appendChild(tooltip);
     interactions++;
-    // document.addEventListener("click", hideToolTips, { once: true });
+    // Any click closes the tooltip
+    document.addEventListener("click", hideToolTips, { once: true, capture: true });
   }
   function hideToolTips() {
-    console.log("hiding");
-    document.querySelectorAll("[data-tooltip]")[interactions].style.display = "none";
+    Array.from(document.querySelectorAll("[data-tooltip]"))[interactions].style.display = "none";
   }
 }

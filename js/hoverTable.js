@@ -5,8 +5,12 @@ export function hoverTable() {
   document.querySelectorAll(".cell").forEach((cell) => {
     cell.addEventListener("mouseover", function () {
       const rowWrap = this.parentNode; // Get the row that contains the hovered cell
-      const cellIndex = Array.from(rowWrap.children).indexOf(this); // Get the index of the hovered cell within the row
+      let cellIndex = Array.from(rowWrap.children).indexOf(this); // Get the index of the hovered cell within the row
       // Highlight all cells in the same column within the same row
+
+      if (cell.classList.contains("c_title-cell")) {
+        cellIndex++;
+      }
 
       rows.forEach((row) => {
         row.querySelectorAll(".c_first-cell, .c_cell, .c_cell-impact, .c_description").forEach((cell, index) => {
