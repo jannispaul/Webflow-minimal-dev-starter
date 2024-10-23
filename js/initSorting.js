@@ -33,7 +33,7 @@ export function initSorting() {
       slide.style.setProperty("--index", `${index}`);
       mechanismSlideList.appendChild(slide);
 
-      slide.style.opacity = 1;
+      slide.childNodes[0].style.opacity = 1;
     });
     mechanismSlideList.append(moreSlide);
 
@@ -89,7 +89,7 @@ export function initSorting() {
       slide.querySelector(`[data-challenge="${challengeSlug}"]`).style.display = "flex";
 
       // Set opactity if slide is not relevant
-      slide.querySelector(`[data-challenge="${challengeSlug}"]`).getAttribute("data-impact") === "Not Relevant" ? (slide.style.opacity = 0.3) : (slide.style.opacity = 1);
+      slide.querySelector(`[data-challenge="${challengeSlug}"]`).getAttribute("data-impact") === "Not Relevant" ? (slide.childNodes[0].style.opacity = 0.3) : (slide.childNodes[0].style.opacity = 1);
       slide.style.setProperty("--index", `${index}`);
 
       mechanismSlideList.appendChild(slide);
