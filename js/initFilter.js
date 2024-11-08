@@ -1,4 +1,5 @@
 export function initFilter(params) {
+  console.log("hi");
   const filterForms = document.querySelectorAll('form[data-view="filter"]');
   const challengeList = document.querySelector('[data-list="challenges"]');
 
@@ -19,6 +20,14 @@ export function initFilter(params) {
         challenge.style.display = "inline-block"; // Needs to be inline-block for dynamic width on tablet and smaller
       } else {
         challenge.style.display = "none";
+      }
+    });
+    let challengeTypeLabels = document.querySelectorAll("[data-type-label]");
+    challengeTypeLabels.forEach((label) => {
+      if (label.getAttribute("data-type-label").toLowerCase() === filterValue.toLowerCase()) {
+        label.style.display = "block";
+      } else {
+        label.style.display = "none";
       }
     });
   }
