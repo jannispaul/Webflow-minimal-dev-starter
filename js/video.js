@@ -2,7 +2,7 @@ import "https://cdn.jsdelivr.net/npm/hls.js@1";
 export function initVideo() {
   const video = document.querySelector("[data-element='video']");
   let hls;
-  let videoSrc = "https://upcdn.io/FW25cEo/video/test.mp4!f=hls-h264&h=480&h=1080&a=/video.m3u8";
+  let videoSrc = video.src;
   if (Hls.isSupported()) {
     hls = new Hls();
     hls.loadSource(videoSrc);
