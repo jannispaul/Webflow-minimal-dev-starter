@@ -33,19 +33,12 @@ export default defineConfig({
   },
   build: {
     rollupOptions: {
-      //   input: getInputFiles("js"),
-      //   input: "js/home.js",
-      input: "js/main.js",
+      input: getInputFiles("js"),
       output: {
-        // manualChunks(file) {
-        //   // Branch by path string and return JS filename after bundling
-        //   console.log(file); // full path
-        //   //   return "index";
-        // },
         dir: "dist", // Output directory
         entryFileNames: "[name].js", // Hashed file names
         chunkFileNames: "[name].js", // Hashed chunk names
-        inlineDynamicImports: true,
+        // inlineDynamicImports: true,
       },
     },
   },
