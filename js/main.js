@@ -1,3 +1,3 @@
-document.addEventListener("DOMContentLoaded", (event) => {
-  // Do something
+pageFunctions.addFunction("yourFunctionName", function () {
+  // your code
 });

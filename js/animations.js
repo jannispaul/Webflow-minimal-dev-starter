@@ -1,3 +1,21 @@
+/*
+<!-- Site Settings Head Code --> 
+<style>
+html:not(.gsap-not-found) [data-prevent-fouc='true'] { visibility: hidden; }
+.line-mask, .word-mask, .char-mask, .gsap_split_word-mask, .split-mask-line-mask  { padding-block: 0.1em; margin-block: -0.1em; }
+</style>
+<noscript><style>(data-prevent-fouc='true'] { visibility: visible!important; }</style></noscript>
+
+<!-- Site Settings Footer Code -->
+<script>
+document.addEventListener ("DOMContentLoaded", () => { 
+if (typeof window.gsap === "undefined") document.documentElement.classList.add ("gsap-not-found");
+gsap.registerPlugin(ScrollTrigger, SplitText); // List plugins here
+}) ;
+</script>
+
+*/
+
 // Import GSAP and ScrollTrigger
 import gsap from "https://cdn.skypack.dev/gsap";
 import { ScrollTrigger } from "https://cdn.skypack.dev/gsap/ScrollTrigger";
