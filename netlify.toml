@@ -4,3 +4,19 @@ publish = "dist"
 
 [build.environment]
 NODE_VERSION = "20"
+
+[[headers]]
+  for = "/*.js"
+  [headers.values]
+    Access-Control-Allow-Origin = "*"
+    Cache-Control = "public, max-age=3600"
+    X-Content-Type-Options = "nosniff"
+    # X-Frame-Options = "DENY"  # Optional, if not needed
+
+[[headers]]
+  for = "/*.css"
+  [headers.values]
+    Access-Control-Allow-Origin = "*"
+    Cache-Control = "public, max-age=3600"
+    X-Content-Type-Options = "nosniff"
+
