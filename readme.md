@@ -25,7 +25,8 @@ gh repo create "$PROJECT_NAME" \
 
 `npm run dev`: http://localhost:5555`
 
-Use with dev proxy: `https://dev.arise.so/?url=https://project.webflow.io?
+Use with dev proxy: `https://dev.arise.so/?url=https://project.webflow.io`
+
 Use with test proxy: `https://test.arise.so/ ? test=netlify-url.com & url=https://project.webflow.io`
 
 
