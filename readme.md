@@ -1,38 +1,48 @@
 # Minimal Webflow Developement Starter
 
-Uses [vite](https://vitejs.dev/) to run dev server and to minify output.
+Repository template that uses [vite](https://vitejs.dev/) to run dev server and to minify output.
 
 ## Setup
 
-- Clone
-- Rename
-- Open: `code .`
-- `pnpm install`
-- `git init`
-- Push
+Use with setup script `new-webflow-project project-name`
+```
+gh repo create "$PROJECT_NAME" \
+  --template jannispaul/Webflow-minimal-dev-starter \
+  --private \
+  --include-all-branches \
+  --clone
+```
 
 ## Usage
 
+### Branches
+
+- Use *dev* for active development.
+- Merge into *test* for staging.
+- Merge into *main* for production.  
+
+
 ### Run locally
 
-`pnpm run dev`: http://localhost:5555`
+`npm run dev`: http://localhost:5555`
 
-Local dev script can be added in Weblfow:
+Use with dev proxy: `https://dev.arise.so/?url=https://project.webflow.io`
 
-```
-<script src="http://localhost:5555/main.js"></script>
-```
+Use with test proxy: `https://test.arise.so/ ? test=netlify-url.com & url=https://project.webflow.io`
 
-Or in Chrome browser console:
 
-```
-var ele = document.createElement("script");
-var scriptPath = "http://localhost:5555/main.js" //verify the script path
-ele.setAttribute("src",scriptPath);
-document.head.appendChild(ele)
-
-```
-
-### Minify and copy to webflow
+### Minify and deploy to netlify
 
 `pnpm run build`
+
+### Use in webflow
+
+Use script tags with 3 attributes for production, test, and dev environments.
+
+```
+<script
+  src="https://project.netlify.app/dist/script.js"
+  test-src="https://test--project.netlify.app/dist/script.js"
+  dev-src="http://localhost:5555/dist/script.js"
+></script>
+```
