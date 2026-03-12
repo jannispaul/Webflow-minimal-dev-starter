@@ -9,6 +9,7 @@ Use with setup script `new-webflow-project project-name`
 gh repo create "$PROJECT_NAME" \
   --template jannispaul/Webflow-minimal-dev-starter \
   --private \
+  --include-all-branches \
   --clone
 ```
 
