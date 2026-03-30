@@ -8,9 +8,10 @@ alwaysApply: true
 ## General Approach
 - Use **individual JS files** — one per component or feature.
 - Keep code **modular and self-contained**.
-- Assume minified scripts are inlined in Webflow components (no bundler).
+- Assume scripts are used as individual scripts with type="module" or are inlined in Webflow components (no bundler).
 
 ## GSAP Usage
+- Do NOT use GSAP unless specifically instructed to.
 - **Do NOT import GSAP** — it’s already available globally in Webflow.
 - Use `gsap`, `ScrollTrigger`, etc. directly.
 - **DO NOT register GSAP plugins**, – they are registered in Webflow.
@@ -19,5 +20,4 @@ alwaysApply: true
 
 ## Code Style
 - Avoid `import` / `export` / ESM syntax with internal script (no build step). Imports of CND modules is fine.
-- Wrap scripts in an **IIFE** or use function scope to avoid polluting globals.
-- Initialize on DOM ready:
+- Use modern JS, let and const instead of var.
