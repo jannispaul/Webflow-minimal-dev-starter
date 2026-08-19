@@ -20,6 +20,8 @@ Then install once. `postinstall` replaces the `PROJECT_NAME` placeholders with t
 pnpm install
 ```
 
+Updating a project created from an older version of this template? See [docs/UPGRADING.md](docs/UPGRADING.md).
+
 ## Conventions
 
 [AGENTS.md](AGENTS.md) is the single source of truth for coding conventions (Lumos, variables, embeds). `CLAUDE.md` and the Cursor rule both point at it.
