@@ -1,23 +1,7 @@
 ---
-description:
+description: Webflow development conventions
 globs:
 alwaysApply: true
 ---
-# Webflow JS Development Rules
 
-## General Approach
-- Use **individual JS files** — one per component or feature.
-- Keep code **modular and self-contained**.
-- Assume scripts are used as individual scripts with type="module" or are inlined in Webflow components (no bundler).
-
-## GSAP Usage
-- Do NOT use GSAP unless specifically instructed to.
-- **Do NOT import GSAP** — it’s already available globally in Webflow.
-- Use `gsap`, `ScrollTrigger`, etc. directly.
-- **DO NOT register GSAP plugins**, – they are registered in Webflow.
-- Clamp scrollTriggers
-- Add resize listeners
-
-## Code Style
-- Avoid `import` / `export` / ESM syntax with internal script (no build step). Imports of CND modules is fine.
-- Use modern JS, let and const instead of var.
+See [AGENTS.md](mdc:AGENTS.md) — it is the single source of truth for this project's conventions.
