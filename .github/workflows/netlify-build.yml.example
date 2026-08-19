@@ -1,0 +1,30 @@
+# OPTIONAL — catches a broken build before it reaches a live Webflow site.
+# Only worth enabling if you host the built files (Option B in readme.md);
+# if you paste code inline, nothing here is deployed and this adds no value.
+#
+# Enable with: pnpm run setup:netlify   (renames this file to .yml)
+
+name: Build
+
+on:
+  pull_request:
+    branches: [test, main]
+  push:
+    branches: [test, main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      - run: pnpm run build

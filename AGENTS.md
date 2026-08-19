@@ -13,11 +13,27 @@ Follow the existing conventions of the website — class naming, spacing, compon
 
 ## Custom JS
 
-Written locally in `js/`, built and minified to `dist/` (`pnpm run build`), then embedded in Webflow.
+Write the source locally in `js/` — one file per component or feature, modular and self-contained. Build with `pnpm run build`, which minifies each file to `dist/`.
 
-- One file per component or feature. Modular and self-contained.
-- Embed element gets the class `u-embed-js`.
-- Inline the built script with `type="module"` and a `dev-src` pointing at the source file name:
+- Modern JS: `const` / `let`, never `var`. CDN module imports are fine.
+- **Do not import or register GSAP** — `gsap`, `ScrollTrigger` etc. are already global and registered in Webflow. Only use GSAP when asked.
+- Clamp ScrollTriggers and add resize listeners.
+
+### Embedding (default)
+
+Paste the built `dist/<name>.js` **inline** into a Webflow embed. The embed element gets the class `u-embed-js`. The script is `type="module"`, with `dev-src` naming the source file so the dev proxy can swap in localhost while you work:
+
+```html
+<script type="module" dev-src="main.js">
+  console.log(`start here`);
+</script>
+```
+
+Rebuild and re-paste when the source changes.
+
+### Embedding (alternative: hosted)
+
+Only when the project hosts its built files — see "Option B" in the readme. Same `u-embed-js` class, but the script points at URLs instead of carrying the code:
 
 ```html
 <script
@@ -27,10 +43,6 @@ Written locally in `js/`, built and minified to `dist/` (`pnpm run build`), then
   dev-src="http://localhost:5555/js/main.js"
 ></script>
 ```
-
-- Modern JS: `const` / `let`, never `var`. CDN module imports are fine.
-- **Do not import or register GSAP** — `gsap`, `ScrollTrigger` etc. are already global and registered in Webflow. Only use GSAP when asked.
-- Clamp ScrollTriggers and add resize listeners.
 
 ## Custom CSS
 
