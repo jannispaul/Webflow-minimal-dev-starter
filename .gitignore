@@ -4,5 +4,7 @@
 node_modules/
 # build output
 dist/
+# personal Claude Code overrides (settings.json is shared and committed)
+.claude/settings.local.json
 # macOS-specific files
 .DS_Store

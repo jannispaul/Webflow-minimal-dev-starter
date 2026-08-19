@@ -1,22 +1,27 @@
+# OPTIONAL — only used if you host the built files instead of pasting them
+# inline into Webflow. Inert unless you connect this repo to Netlify.
+# See "Option B" in readme.md.
+
 [build]
-command = "npm run build"
+command = "pnpm run build"
 publish = "dist"
 
 [build.environment]
-NODE_VERSION = "20"
+NODE_VERSION = "22"
 
+# Filenames are stable (main.js, not main.a1b2c3.js) because Webflow embeds
+# point straight at them — so they can't be cached for long or a deploy would
+# leave stale code running on the live site. Short TTL + revalidation instead.
 [[headers]]
   for = "/*.js"
   [headers.values]
     Access-Control-Allow-Origin = "*"
-    Cache-Control = "public, max-age=3600"
+    Cache-Control = "public, max-age=60, must-revalidate"
     X-Content-Type-Options = "nosniff"
-    # X-Frame-Options = "DENY"  # Optional, if not needed
 
 [[headers]]
   for = "/*.css"
   [headers.values]
     Access-Control-Allow-Origin = "*"
-    Cache-Control = "public, max-age=3600"
+    Cache-Control = "public, max-age=60, must-revalidate"
     X-Content-Type-Options = "nosniff"
-

@@ -1,10 +1,11 @@
-# Minimal Webflow Developement Starter
+# Minimal Webflow Development Starter
 
-Repository template that uses [vite](https://vitejs.dev/) to run dev server and to minify output.
+Repository template that uses [vite](https://vitejs.dev/) to run a dev server and minify output for Webflow.
 
 ## Setup
 
 Use with setup script `new-webflow-project project-name`
+
 ```
 gh repo create "$PROJECT_NAME" \
   --template jannispaul/Webflow-minimal-dev-starter \
@@ -13,7 +14,7 @@ gh repo create "$PROJECT_NAME" \
   --clone
 ```
 
-Then install once — `postinstall` rewrites the `.mcp.json` placeholder to `webflow-<repo-name>`:
+Then install once. `postinstall` replaces the `PROJECT_NAME` placeholders with the repo name, so the Webflow MCP server becomes `webflow-<repo-name>` in `.mcp.json` and is pre-allowed in `.claude/settings.json`:
 
 ```
 pnpm install
@@ -27,10 +28,9 @@ pnpm install
 
 ### Branches
 
-- Use *dev* for active development.
+- Use *develop* for active development.
 - Merge into *test* for staging.
-- Merge into *main* for production.  
-
+- Merge into *main* for production.
 
 ### Run locally
 
@@ -38,20 +38,33 @@ pnpm install
 
 Use with dev proxy: `https://dev.arise.so/?url=https://project.webflow.io`
 
-Use with test proxy: `https://test.arise.so/ ? test=netlify-url.com & url=https://project.webflow.io`
-
-
-### Minify and deploy to netlify
+### Build
 
 `pnpm run build`
 
-### Use in webflow
+Each `js/<name>.js` is minified to its own `dist/<name>.js`. `dist/` is gitignored — it's build output, rebuild it whenever you need it.
 
-Add the script in an embed with the class `u-embed-js`, using 3 attributes for production, test, and dev environments.
+`debugger` statements are stripped; `console` calls are kept on purpose, since logging is how you debug code that only ever runs inside Webflow. Change `esbuild.drop` in [vite.config.js](vite.config.js) if you'd rather strip them.
 
-Netlify publishes `dist` as the site root, so built files are served from `/`, not `/dist/`. In dev, vite serves the unbuilt source from `/js/`.
+## Use in Webflow
 
+### Option A — inline (default)
+
+Paste the built `dist/<name>.js` straight into a Webflow embed. The embed element gets the class `u-embed-js`. `dev-src` names the source file so the dev proxy can swap in your localhost version while you work:
+
+```html
+<script type="module" dev-src="main.js">
+  console.log(`start here`);
+</script>
 ```
+
+Rebuild and re-paste when the source changes. Nothing is hosted, so there's no deploy step and no cache to wait on.
+
+### Option B — hosted (optional)
+
+For projects where re-pasting is impractical, host `dist/` on Netlify and point the embed at URLs instead. Same `u-embed-js` class, three attributes for production, test and dev:
+
+```html
 <script
   type="module"
   src="https://project.netlify.app/main.js"
@@ -59,3 +72,17 @@ Netlify publishes `dist` as the site root, so built files are served from `/`, n
   dev-src="http://localhost:5555/js/main.js"
 ></script>
 ```
+
+Netlify publishes `dist` as the site root, so built files are served from `/`, not `/dist/`. In dev, vite serves the unbuilt source from `/js/`.
+
+To enable this path:
+
+```
+pnpm run setup:netlify
+```
+
+That fills the `project.netlify.app` placeholders with your repo name and enables the GitHub Action that builds every PR into `test`/`main`, so a syntax error can't reach a live site. Pass a different site name with `pnpm run setup:netlify -- my-site`.
+
+[netlify.toml](netlify.toml) holds the build command and cache headers. It's inert unless you actually connect the repo to Netlify.
+
+Use with test proxy: `https://test.arise.so/?test=netlify-url.com&url=https://project.webflow.io`
