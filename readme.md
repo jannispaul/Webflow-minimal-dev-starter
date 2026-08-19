@@ -13,6 +13,16 @@ gh repo create "$PROJECT_NAME" \
   --clone
 ```
 
+Then install once — `postinstall` rewrites the `.mcp.json` placeholder to `webflow-<repo-name>`:
+
+```
+pnpm install
+```
+
+## Conventions
+
+[AGENTS.md](AGENTS.md) is the single source of truth for coding conventions (Lumos, variables, embeds). `CLAUDE.md` and the Cursor rule both point at it.
+
 ## Usage
 
 ### Branches
@@ -24,7 +34,7 @@ gh repo create "$PROJECT_NAME" \
 
 ### Run locally
 
-`npm run dev`: http://localhost:5555`
+`pnpm run dev`: http://localhost:5555
 
 Use with dev proxy: `https://dev.arise.so/?url=https://project.webflow.io`
 
@@ -37,12 +47,15 @@ Use with test proxy: `https://test.arise.so/ ? test=netlify-url.com & url=https:
 
 ### Use in webflow
 
-Use script tags with 3 attributes for production, test, and dev environments.
+Add the script in an embed with the class `u-embed-js`, using 3 attributes for production, test, and dev environments.
+
+Netlify publishes `dist` as the site root, so built files are served from `/`, not `/dist/`. In dev, vite serves the unbuilt source from `/js/`.
 
 ```
 <script
-  src="https://project.netlify.app/dist/script.js"
-  test-src="https://test--project.netlify.app/dist/script.js"
-  dev-src="http://localhost:5555/dist/script.js"
+  type="module"
+  src="https://project.netlify.app/main.js"
+  test-src="https://test--project.netlify.app/main.js"
+  dev-src="http://localhost:5555/js/main.js"
 ></script>
 ```

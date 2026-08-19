@@ -2,5 +2,7 @@
 .env
 # dependencies
 node_modules/
+# build output
+dist/
 # macOS-specific files
 .DS_Store

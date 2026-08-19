@@ -1,0 +1,8 @@
+# Allow esbuild (vite's bundler) to run its install script, otherwise the
+# build fails with ERR_PNPM_IGNORED_BUILDS on a fresh clone.
+# `allowBuilds` is pnpm 11+, `onlyBuiltDependencies` is pnpm 10 — keep both.
+allowBuilds:
+  esbuild: true
+
+onlyBuiltDependencies:
+  - esbuild

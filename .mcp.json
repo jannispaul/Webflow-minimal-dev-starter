@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "webflow-PROJECT_NAME": {
+      "type": "http",
+      "url": "https://mcp.webflow.com/mcp"
+    }
+  }
+}

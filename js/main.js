@@ -1,3 +1,1 @@
-pageFunctions.addFunction("yourFunctionName", function () {
-  // your code
-});
+console.log("start here")
