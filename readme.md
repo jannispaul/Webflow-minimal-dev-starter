@@ -26,6 +26,14 @@ Updating a project created from an older version of this template? See [docs/UPG
 
 [AGENTS.md](AGENTS.md) is the single source of truth for coding conventions (Lumos, variables, embeds). `CLAUDE.md` and the Cursor rule both point at it.
 
+### Skills
+
+[Agent Skills](https://agentskills.io) (`SKILL.md` folders) ship with the template. They're a cross-agent open standard — the same folder works in Claude Code, Codex and Cursor; only the discovery path differs per tool. The agent loads a skill automatically when a request matches its description.
+
+The canonical copy lives in the vendor-neutral `.agents/skills/` (read by Codex and Cursor). `.claude/skills/` symlinks to it so Claude Code picks it up too — one source, no drift. (On Windows, `git config core.symlinks true` before cloning, or copy the folder instead of symlinking.)
+
+- **`webflow-lumos-pages`** — compose pages and sections from the existing Lumos component kit (Section, Layout, Grid, Card Primary, …) via the Webflow MCP, using only their props, variants and slots. Triggers on page/section work like "add a hero" or "build a features section".
+
 ## Usage
 
 ### Branches
