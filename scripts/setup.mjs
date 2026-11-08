@@ -1,21 +1,16 @@
 // Replaces the PROJECT_NAME placeholders with this repo's actual name.
 //
-//   pnpm install            → runs this automatically (MCP + Claude settings)
-//   pnpm run setup:netlify  → additionally wires up the optional Netlify hosting
+//   pnpm install  → runs this automatically (MCP + Claude settings)
 //
 // Safe to re-run; every step no-ops once it has been applied.
 
 import { execSync } from "child_process";
-import { existsSync, readFileSync, renameSync, writeFileSync } from "fs";
+import { existsSync, readFileSync, writeFileSync } from "fs";
 import { basename, resolve } from "path";
 
 const TEMPLATE_NAME = "webflow-minimal-dev-starter";
 const PLACEHOLDER = "PROJECT_NAME";
 const root = process.cwd();
-
-const withNetlify = process.argv.includes("--netlify");
-// Optional explicit Netlify site name: `pnpm run setup:netlify -- my-site`
-const siteNameArg = process.argv.slice(2).find((arg) => !arg.startsWith("-"));
 
 function slugify(value) {
   return value
@@ -54,7 +49,7 @@ if (!name || name === TEMPLATE_NAME) {
 
 const changed = [];
 
-// --- Always: point the MCP server and its permission rule at this project ---
+// Point the MCP server and its permission rule at this project.
 
 if (edit(".mcp.json", (s) => s.replaceAll(PLACEHOLDER, name))) {
   changed.push(`.mcp.json → webflow-${name}`);
@@ -62,27 +57,6 @@ if (edit(".mcp.json", (s) => s.replaceAll(PLACEHOLDER, name))) {
 
 if (edit(".claude/settings.json", (s) => s.replaceAll(PLACEHOLDER, name))) {
   changed.push(`.claude/settings.json → mcp__webflow-${name} allowed`);
-}
-
-// --- Opt-in: the Netlify hosting path (most projects paste code inline) ---
-
-if (withNetlify) {
-  const site = siteNameArg ? slugify(siteNameArg) : name;
-
-  if (edit("readme.md", (s) => s.replaceAll("project.netlify.app", `${site}.netlify.app`))) {
-    changed.push(`readme.md → ${site}.netlify.app`);
-  }
-
-  if (edit("AGENTS.md", (s) => s.replaceAll("project.netlify.app", `${site}.netlify.app`))) {
-    changed.push(`AGENTS.md → ${site}.netlify.app`);
-  }
-
-  const workflow = resolve(root, ".github/workflows/netlify-build.yml");
-  const disabled = `${workflow}.example`;
-  if (existsSync(disabled) && !existsSync(workflow)) {
-    renameSync(disabled, workflow);
-    changed.push("enabled .github/workflows/netlify-build.yml");
-  }
 }
 
 if (changed.length) {

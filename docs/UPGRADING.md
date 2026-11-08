@@ -14,7 +14,8 @@ Steps 1–3 are safe and additive. Steps 4–6 can break a live site — read th
 
 ## What changed in the template
 
-- **Inline embeds are now the default.** Build locally, paste `dist/<name>.js` into a Webflow embed. Netlify hosting is Option B, opt-in.
+- **Inline embeds are the only path.** Build locally, paste `dist/<name>.js` into a Webflow embed. Netlify hosting (`netlify.toml`, the build GitHub Action) is gone from the template.
+- **Two branches: `develop` → `main`.** The `test` staging branch is gone.
 - `AGENTS.md` is the single source of truth for conventions; `CLAUDE.md` and the Cursor rule point at it.
 - `.mcp.json` (Webflow MCP) + `.claude/settings.json` (pre-allows it).
 - `dist/` is no longer tracked in git.
@@ -67,7 +68,7 @@ The name in `allow` must match the key in `.mcp.json` exactly, or the permission
 
 The server still needs OAuth — run `/mcp` in an interactive Claude Code session once per machine.
 
-Copying `scripts/setup.mjs` and the `setup` / `setup:netlify` / `postinstall` scripts is optional here. It exists to fill placeholders on a fresh clone, which this repo is past. Take it if you want future template updates to apply uniformly.
+Copying `scripts/setup.mjs` and the `setup` / `postinstall` scripts is optional here. It exists to fill placeholders on a fresh clone, which this repo is past. Take it if you want future template updates to apply uniformly.
 
 ## 3. Does this project use Netlify?
 
@@ -75,8 +76,8 @@ Decide now — it changes steps 4 and 6.
 
 Check for a connected Netlify site, and grep the Webflow embeds for a `src="https://....netlify.app/"`.
 
-- **No** (most projects) → `netlify.toml` is inert; leave it or delete it. Skip the GitHub Action.
-- **Yes** → keep `netlify.toml`, and step 6 has a change you cannot skip.
+- **No** (most projects) → delete `netlify.toml`, any `.github/workflows/netlify-build.yml(.example)` and a `setup:netlify` script in `package.json`.
+- **Yes** → the template no longer supports this, but don't rip it out of a live project blindly. Either move the embeds to inline first and then delete the Netlify files, or keep the project's own `netlify.toml` — step 6 has a change you cannot skip.
 
 ## 4. Stop tracking `dist/`
 
@@ -91,7 +92,7 @@ Then add to `.gitignore`:
 dist/
 ```
 
-⚠️ **Check the Webflow embeds first.** If any script loads `dist/` from GitHub directly — `raw.githubusercontent.com`, `cdn.jsdelivr.net/gh/...`, or similar — untracking it takes the live site down. Move those embeds to inline or Netlify *before* this step.
+⚠️ **Check the Webflow embeds first.** If any script loads `dist/` from GitHub directly — `raw.githubusercontent.com`, `cdn.jsdelivr.net/gh/...`, or similar — untracking it takes the live site down. Move those embeds to inline *before* this step.
 
 Netlify-hosted projects are unaffected; Netlify builds `dist/` from source.
 
@@ -136,7 +137,7 @@ Compare the new `dist/<name>.js` against what's currently live in the Webflow em
 
 ## 6. `netlify.toml`
 
-**If the project uses Netlify** — this one is mandatory alongside step 5. Vite 8 needs Node 22, and the file currently pins 20, so the next deploy fails:
+**If the project still uses Netlify** — this one is mandatory alongside step 5. Vite 8 needs Node 22, and the file currently pins 20, so the next deploy fails:
 
 ```toml
 [build]
@@ -147,11 +148,9 @@ publish = "dist"
 NODE_VERSION = "22"
 ```
 
-Also worth taking: cache headers went from `max-age=3600` to `max-age=60, must-revalidate`. Filenames are stable, so an hour-long TTL means a deploy can leave stale code running for an hour.
+Also worth changing: cache headers from `max-age=3600` to `max-age=60, must-revalidate`. Filenames are stable, so an hour-long TTL means a deploy can leave stale code running for an hour.
 
-Optionally copy `.github/workflows/netlify-build.yml.example` and rename it to `.yml` — it builds every PR into `test`/`main` so a syntax error can't reach the live site.
-
-**If it doesn't use Netlify**, mark the file optional or delete it.
+**If it doesn't use Netlify**, delete the file (step 3).
 
 ## 7. Webflow Designer
 
@@ -175,7 +174,7 @@ Expect: no warnings, and a non-empty `dist/`. Then run the dev server and load t
 pnpm run dev
 ```
 
-Once the live site is confirmed good, merge along the project's own branch flow (`develop` → `test` → `main`).
+Once the live site is confirmed good, merge along the project's own branch flow (`develop` → `main`). If the project has a `test` branch that nothing deploys from anymore, delete it.
 
 ---
 

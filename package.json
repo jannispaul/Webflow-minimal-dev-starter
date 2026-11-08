@@ -5,7 +5,6 @@
     "build": "vite build",
     "preview": "vite preview",
     "setup": "node scripts/setup.mjs",
-    "setup:netlify": "node scripts/setup.mjs --netlify",
     "postinstall": "node scripts/setup.mjs"
   },
   "devDependencies": {
