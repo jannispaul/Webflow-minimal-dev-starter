@@ -39,7 +39,6 @@ The canonical copy lives in the vendor-neutral `.agents/skills/` (read by Codex 
 ### Branches
 
 - Use *develop* for active development.
-- Merge into *test* for staging.
 - Merge into *main* for production.
 
 ### Run locally
@@ -58,8 +57,6 @@ Each `js/<name>.js` is minified to its own `dist/<name>.js`. `dist/` is gitignor
 
 ## Use in Webflow
 
-### Option A — inline (default)
-
 Paste the built `dist/<name>.js` straight into a Webflow embed. The embed element gets the class `u-embed-js`. `dev-src` names the source file so the dev proxy can swap in your localhost version while you work:
 
 ```html
@@ -69,30 +66,3 @@ Paste the built `dist/<name>.js` straight into a Webflow embed. The embed elemen
 ```
 
 Rebuild and re-paste when the source changes. Nothing is hosted, so there's no deploy step and no cache to wait on.
-
-### Option B — hosted (optional)
-
-For projects where re-pasting is impractical, host `dist/` on Netlify and point the embed at URLs instead. Same `u-embed-js` class, three attributes for production, test and dev:
-
-```html
-<script
-  type="module"
-  src="https://project.netlify.app/main.js"
-  test-src="https://test--project.netlify.app/main.js"
-  dev-src="http://localhost:5555/js/main.js"
-></script>
-```
-
-Netlify publishes `dist` as the site root, so built files are served from `/`, not `/dist/`. In dev, vite serves the unbuilt source from `/js/`.
-
-To enable this path:
-
-```
-pnpm run setup:netlify
-```
-
-That fills the `project.netlify.app` placeholders with your repo name and enables the GitHub Action that builds every PR into `test`/`main`, so a syntax error can't reach a live site. Pass a different site name with `pnpm run setup:netlify -- my-site`.
-
-[netlify.toml](netlify.toml) holds the build command and cache headers. It's inert unless you actually connect the repo to Netlify.
-
-Use with test proxy: `https://test.arise.so/?test=netlify-url.com&url=https://project.webflow.io`
