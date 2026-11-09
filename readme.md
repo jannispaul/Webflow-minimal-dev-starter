@@ -53,7 +53,7 @@ Use with dev proxy: `https://dev.arise.so/?url=https://project.webflow.io`
 
 Each `js/<name>.js` is minified to its own `dist/<name>.js`. `dist/` is gitignored — it's build output, rebuild it whenever you need it.
 
-`debugger` statements are stripped; `console` calls are kept on purpose, since logging is how you debug code that only ever runs inside Webflow. Change `esbuild.drop` in [vite.config.js](vite.config.js) if you'd rather strip them.
+`console` and `debugger` are stripped from the build via Oxc minify in [vite.config.js](vite.config.js) (`dropConsole` / `dropDebugger`).
 
 ## Use in Webflow
 

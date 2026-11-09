@@ -37,7 +37,7 @@ Source lives in `js/`, one file per component or feature. Each file builds to it
 - Self-contained: no globals, no cross-file dependencies. Exit early if the target elements aren't on the page.
 - Select elements with `data-` attributes, not styling classes — classes get renamed in the Designer.
 - Small functions, JSDoc on anything non-trivial, descriptive names (`isOpen`, `hasLoaded`).
-- `console` calls are kept in the build on purpose (debugging in Webflow); `debugger` is stripped.
+- `console` and `debugger` are stripped from the build (`dropConsole` / `dropDebugger` in `vite.config.js`).
 
 ### Embedding
 

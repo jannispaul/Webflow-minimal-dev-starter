@@ -31,19 +31,19 @@ export default defineConfig({
   preview: {
     port: 5555,
   },
-  esbuild: {
-    // `console` is deliberately NOT dropped — logs are how you debug code
-    // that only ever runs pasted inside Webflow. Add "console" here if you
-    // want them stripped from the build.
-    drop: ["debugger"],
-  },
   build: {
-    rollupOptions: {
+    // Vite 8 minifies with Oxc via Rolldown — `esbuild.drop` is a no-op.
+    // Use one `rolldownOptions` object (don't also set `rollupOptions`;
+    // that alias is deprecated and a second key can wipe `input`).
+    rolldownOptions: {
       input: getInputFiles("./js"),
       output: {
         dir: "dist",
         entryFileNames: "[name].js", // Stable names — Webflow embeds point at these.
         chunkFileNames: "[name].js",
+        minify: {
+          compress: { dropConsole: true, dropDebugger: true },
+        },
       },
     },
   },

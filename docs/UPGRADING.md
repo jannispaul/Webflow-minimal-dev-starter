@@ -20,7 +20,7 @@ Steps 1–3 are safe and additive. Steps 4–6 can break a live site — read th
 - `.mcp.json` (Webflow MCP) + `.claude/settings.json` (pre-allows it).
 - `dist/` is no longer tracked in git.
 - Vite 4 → 8, `vite-plugin-minify` dropped.
-- `console` calls are kept in the build; only `debugger` is stripped.
+- `console` and `debugger` are stripped from the build via Oxc minify (`dropConsole` / `dropDebugger`).
 
 ---
 
@@ -117,15 +117,25 @@ Needs Node 22+. Then apply these, all of which are required:
 cors: { origin: "*" },
 ```
 
-**`vite.config.js`** — `esbuild.drop`:
+**`vite.config.js`** — Vite 8 minifies with Oxc via Rolldown, so `esbuild.drop` is a no-op for console. Put minify on the same `rolldownOptions` object as `input` (don't set both `rollupOptions` and `rolldownOptions` — the second wins and can wipe `input`):
 
 ```js
-esbuild: {
-  drop: ["debugger"],
+build: {
+  rolldownOptions: {
+    input: getInputFiles("./js"),
+    output: {
+      dir: "dist",
+      entryFileNames: "[name].js",
+      chunkFileNames: "[name].js",
+      minify: {
+        compress: { dropConsole: true, dropDebugger: true },
+      },
+    },
+  },
 },
 ```
 
-⚠️ **`drop: ["console"]` no longer strips console calls in Vite 8** (verified — `debugger` is still removed, `console` is not). If this project relied on that, its logs will start shipping to production the moment you rebuild. Either accept it (the template's choice — logs are how you debug code running inside Webflow) or strip them another way.
+Key is `dropConsole` (camelCase), not `drop_console`. Verify with `pnpm run build && rg 'console\.' dist/` — should find nothing.
 
 **Then diff before you ship:**
 
